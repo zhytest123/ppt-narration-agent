@@ -10,13 +10,13 @@
   <g font-family="Inter,Arial,sans-serif" filter="url(#shadow)">
     <rect x="48" y="130" width="178" height="128" rx="20" fill="url(#card)"/>
     <text x="72" y="166" fill="#0f172a" font-size="18" font-weight="700">Inputs</text>
-    <text x="72" y="196" fill="#334155" font-size="14">Prompt</text><text x="72" y="219" fill="#334155" font-size="14">PDF / PPTX / DOCX</text><text x="72" y="242" fill="#334155" font-size="14">Data & brand refs</text>
+    <text x="72" y="196" fill="#334155" font-size="14">Prompt</text><text x="72" y="219" fill="#334155" font-size="14">PDF / PPTX / DOCX</text><text x="72" y="242" fill="#334155" font-size="14">Data &amp; brand refs</text>
     <rect x="288" y="130" width="178" height="128" rx="20" fill="url(#card)"/>
     <text x="312" y="166" fill="#0f172a" font-size="18" font-weight="700">Agent Planner</text>
     <text x="312" y="196" fill="#334155" font-size="14">Outline</text><text x="312" y="219" fill="#334155" font-size="14">Storyboard</text><text x="312" y="242" fill="#334155" font-size="14">Speaker script</text>
     <rect x="528" y="130" width="178" height="128" rx="20" fill="url(#card)"/>
     <text x="552" y="166" fill="#0f172a" font-size="18" font-weight="700">Visual Renderer</text>
-    <text x="552" y="196" fill="#334155" font-size="14">Charts & cards</text><text x="552" y="219" fill="#334155" font-size="14">Timeline / process</text><text x="552" y="242" fill="#334155" font-size="14">Editable PPTX</text>
+    <text x="552" y="196" fill="#334155" font-size="14">Charts &amp; cards</text><text x="552" y="219" fill="#334155" font-size="14">Timeline / process</text><text x="552" y="242" fill="#334155" font-size="14">Editable PPTX</text>
     <rect x="768" y="130" width="164" height="128" rx="20" fill="url(#card)"/>
     <text x="792" y="166" fill="#0f172a" font-size="18" font-weight="700">Outputs</text>
     <text x="792" y="196" fill="#334155" font-size="14">PPTX</text><text x="792" y="219" fill="#334155" font-size="14">scripts.json</text><text x="792" y="242" fill="#334155" font-size="14">Video package</text>
