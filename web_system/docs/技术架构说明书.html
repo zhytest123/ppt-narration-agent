@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>口播视频工具台 · 技术说明书</title>
+  <style>
+:root {
+  --bg: #f7f4ee;
+  --paper: #fffdf8;
+  --ink: #1e2430;
+  --muted: #5d6675;
+  --line: #ddd4c7;
+  --brand: #0f766e;
+  --brand-2: #155eef;
+  --warn: #b54708;
+  --soft: #eef6ff;
+  --soft-2: #eef8f4;
+  --shadow: 0 18px 40px rgba(24, 32, 56, 0.08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(21, 94, 239, 0.08), transparent 34%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 30%),
+    var(--bg);
+  font: 16px/1.72 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+a { color: var(--brand-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.page { width: min(1160px, calc(100vw - 40px)); margin: 0 auto; padding: 28px 0 80px; }
+.hero {
+  display: grid;
+  gap: 18px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(245, 251, 255, 0.9));
+  border: 1px solid rgba(221, 212, 199, 0.9);
+  border-radius: 30px;
+  padding: 34px;
+  box-shadow: var(--shadow);
+}
+.eyebrow { margin: 0; color: var(--brand); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; }
+.hero h1 { margin: 0; font-size: clamp(32px, 4vw, 50px); line-height: 1.08; }
+.hero p { margin: 0; color: var(--muted); max-width: 880px; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--soft-2);
+  color: var(--brand);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  font-size: 13px;
+  font-weight: 700;
+}
+.topnav {
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 26px;
+  padding: 14px 16px;
+  border: 1px solid rgba(221, 212, 199, 0.86);
+  border-radius: 20px;
+  background: rgba(255, 252, 246, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+}
+.topnav a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+}
+.section {
+  margin-top: 24px;
+  padding: 28px;
+  border-radius: 28px;
+  border: 1px solid rgba(221, 212, 199, 0.9);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.section h2 { margin: 0 0 12px; font-size: 28px; }
+.section h3 { margin: 22px 0 10px; font-size: 20px; }
+.section p, .section li { color: var(--muted); }
+.grid { display: grid; gap: 18px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { padding: 18px; border-radius: 22px; border: 1px solid var(--line); background: #fff; }
+.card h3, .card h4 { margin-top: 0; color: var(--ink); }
+.kpi { display: grid; gap: 8px; }
+.kpi strong { font-size: 28px; color: var(--brand-2); line-height: 1; }
+.callout { padding: 16px 18px; border-left: 4px solid var(--brand-2); border-radius: 18px; background: var(--soft); }
+.callout.warn { border-left-color: var(--warn); background: #fff7ed; }
+.steps { counter-reset: item; display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.steps li {
+  position: relative;
+  padding: 14px 16px 14px 58px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.steps li::before {
+  counter-increment: item;
+  content: counter(item);
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+}
+.code {
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  border: 1px solid #d8e3f6;
+  border-radius: 18px;
+  background: #0f172a;
+  color: #dbeafe;
+  font: 14px/1.6 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+.code code { font: inherit; }
+.table-wrap { overflow: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+}
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th { background: #f4f8ff; color: var(--ink); }
+.diagram, .mock {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fff, #fbfaf8);
+  overflow: hidden;
+}
+.figure-title { padding: 12px 16px; border-bottom: 1px solid var(--line); background: #f9fafb; color: var(--ink); font-weight: 700; }
+.figure-caption { padding: 12px 16px 16px; color: var(--muted); font-size: 14px; }
+.mock-window { padding: 14px; }
+.mock-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; }
+.dot.red { background: #f87171; }
+.dot.yellow { background: #fbbf24; }
+.dot.green { background: #34d399; }
+.mock-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; }
+.mock-pane, .mock-form { border-radius: 18px; border: 1px solid var(--line); background: #fff; padding: 14px; }
+.mock-block { height: 12px; border-radius: 999px; background: #e5e7eb; margin-bottom: 10px; }
+.mock-block.sm { width: 36%; }
+.mock-block.md { width: 62%; }
+.mock-block.lg { width: 88%; }
+.mock-block.brand { background: rgba(21, 94, 239, 0.18); }
+.mock-button { display: inline-block; padding: 10px 14px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 13px; font-weight: 700; }
+.footer { margin-top: 22px; text-align: center; color: var(--muted); font-size: 14px; }
+svg { display: block; width: 100%; height: auto; }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .mock-grid { grid-template-columns: 1fr; }
+  .section, .hero { padding: 22px; }
+}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Technical Manual</p>
+      <h1>口播视频工具台<br>技术说明书</h1>
+      <p>这是一份给开发、运维和后续接手同学的技术文档，重点解释系统结构、运行时封装方式、接口、任务流转和可扩展点。</p>
+      <div class="meta">
+        <span class="chip">技术栈：FastAPI + 静态前端</span>
+        <span class="chip">运行时：内置 ChatTTS-OpenVoice-Tools</span>
+        <span class="chip">部署方式：本地单机为主</span>
+      </div>
+    </header>
+
+    <nav class="topnav">
+      <a href="#overview">系统概览</a>
+      <a href="#runtime">运行时封装</a>
+      <a href="#backend">后端结构</a>
+      <a href="#frontend">前端结构</a>
+      <a href="#api">接口</a>
+      <a href="#job">任务流转</a>
+      <a href="#extend">扩展建议</a>
+    </nav>
+
+    <section class="section" id="overview">
+      <h2>一、系统概览</h2>
+      <div class="diagram">
+        <div class="figure-title">图 1：整体架构</div>
+        <svg viewBox="0 0 1120 560" aria-label="整体架构图">
+          <rect x="0" y="0" width="1120" height="560" fill="#fffdf8"/>
+
+          <rect x="40" y="50" width="270" height="180" rx="24" fill="#eef6ff" stroke="#c7d7fe"/>
+          <text x="175" y="96" text-anchor="middle" font-size="28" font-weight="700" fill="#1e2430">Frontend</text>
+          <text x="175" y="132" text-anchor="middle" font-size="18" fill="#5d6675">index.html / app.js / style.css</text>
+          <text x="175" y="164" text-anchor="middle" font-size="17" fill="#5d6675">上传文件、轮询任务、展示结果</text>
+
+          <rect x="424" y="50" width="270" height="180" rx="24" fill="#eef8f4" stroke="#bfe6dd"/>
+          <text x="559" y="96" text-anchor="middle" font-size="28" font-weight="700" fill="#1e2430">FastAPI</text>
+          <text x="559" y="132" text-anchor="middle" font-size="18" fill="#5d6675">app.py</text>
+          <text x="559" y="164" text-anchor="middle" font-size="17" fill="#5d6675">路由、表单解析、任务状态管理</text>
+
+          <rect x="808" y="50" width="270" height="180" rx="24" fill="#fff7ed" stroke="#f6d6ae"/>
+          <text x="943" y="96" text-anchor="middle" font-size="28" font-weight="700" fill="#1e2430">Pipeline</text>
+          <text x="943" y="132" text-anchor="middle" font-size="18" fill="#5d6675">pipeline.py</text>
+          <text x="943" y="164" text-anchor="middle" font-size="17" fill="#5d6675">切图、TTS、拼视频、声纹提取</text>
+
+          <rect x="120" y="330" width="300" height="150" rx="24" fill="#ffffff" stroke="#ddd4c7"/>
+          <text x="270" y="374" text-anchor="middle" font-size="26" font-weight="700" fill="#1e2430">Workspace</text>
+          <text x="270" y="408" text-anchor="middle" font-size="18" fill="#5d6675">jobs / outputs / voiceprints</text>
+          <text x="270" y="438" text-anchor="middle" font-size="16" fill="#5d6675">中间文件、最终视频、提取声纹</text>
+
+          <rect x="700" y="300" width="340" height="210" rx="24" fill="#0f172a"/>
+          <text x="870" y="346" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Runtime Bundle</text>
+          <text x="870" y="384" text-anchor="middle" font-size="18" fill="#cbd5e1">runtime/ChatTTS-OpenVoice-Tools</text>
+          <text x="870" y="418" text-anchor="middle" font-size="16" fill="#cbd5e1">ChatTTS / OpenVoice / ChatTTS_Model</text>
+          <text x="870" y="448" text-anchor="middle" font-size="16" fill="#cbd5e1">extract_voiceprint.py / text_to_speech.py</text>
+          <text x="870" y="478" text-anchor="middle" font-size="16" fill="#cbd5e1">voiceprints / checkpoints / config</text>
+
+          <path d="M310 140H424" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+          <path d="M694 140H808" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+          <path d="M559 230V308H270" fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round"/>
+          <path d="M943 230V300" fill="none" stroke="#b54708" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <div class="figure-caption">前端只负责收集输入和展示状态；后端负责路由和任务状态；`pipeline.py` 串起实际处理；底层运行时已封装进项目内部。</div>
+      </div>
+    </section>
+
+    <section class="section" id="runtime">
+      <h2>二、运行时封装</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>封装目标</h3>
+          <p>原先 `web_system` 依赖同级外部目录 `ChatTTS-OpenVoice-Tools`。当前版本已将该工具链同步进项目内部，默认路径为：</p>
+          <pre class="code"><code>web_system/runtime/ChatTTS-OpenVoice-Tools/</code></pre>
+        </article>
+        <article class="card">
+          <h3>路径决策</h3>
+          <p>后端通过环境变量 `CHAT_TTS_SOURCE_ROOT` 决定运行时根目录。如果没有显式指定，则默认使用项目内置 runtime。</p>
+          <pre class="code"><code>CHAT_TTS_SOURCE_ROOT
+└─ 默认值：web_system/runtime/ChatTTS-OpenVoice-Tools</code></pre>
+        </article>
+      </div>
+
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>封装内容</th>
+              <th>用途</th>
+              <th>是否必需</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`ChatTTS/`</td>
+              <td>文本到语音的主生成逻辑</td>
+              <td>是</td>
+            </tr>
+            <tr>
+              <td>`OpenVoice/`</td>
+              <td>音色转换和声纹相关逻辑</td>
+              <td>是</td>
+            </tr>
+            <tr>
+              <td>`ChatTTS_Model/`</td>
+              <td>模型权重和配置</td>
+              <td>是</td>
+            </tr>
+            <tr>
+              <td>`extract_voiceprint.py`</td>
+              <td>音频转 `.pt` 声纹</td>
+              <td>是</td>
+            </tr>
+            <tr>
+              <td>`text_to_speech.py`</td>
+              <td>文本 + 声纹转音频</td>
+              <td>是</td>
+            </tr>
+            <tr>
+              <td>`voiceprints/`</td>
+              <td>内置声纹集合</td>
+              <td>否，但默认会展示</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="backend">
+      <h2>三、后端结构</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>`backend/app.py`</h3>
+          <ul>
+            <li>FastAPI 实例和静态资源挂载</li>
+            <li>表单接口定义</li>
+            <li>视频任务状态内存存储</li>
+            <li>后台线程启动视频任务</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>`backend/pipeline.py`</h3>
+          <ul>
+            <li>解析运行时根目录</li>
+            <li>列出内置与工作区声纹</li>
+            <li>PDF 切图</li>
+            <li>调用 TTS / 声纹提取脚本</li>
+            <li>ffmpeg 拼接视频</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>`backend/vision_to_script.py`</h3>
+          <ul>
+            <li>图生文输入输出协议定义</li>
+            <li>当前是 placeholder 实现</li>
+            <li>后续可替换为真实视觉模型调用层</li>
+          </ul>
+        </article>
+      </div>
+
+      <h3>后端关键类</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>类 / 函数</th>
+              <th>所在文件</th>
+              <th>职责</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`VoiceprintService.extract()`</td>
+              <td>`pipeline.py`</td>
+              <td>调用 `extract_voiceprint.py` 提取声纹</td>
+            </tr>
+            <tr>
+              <td>`PDFSplitter.split()`</td>
+              <td>`pipeline.py`</td>
+              <td>使用 PyMuPDF 按页渲染图片</td>
+            </tr>
+            <tr>
+              <td>`VideoSynthesisPipeline.run_from_scripts()`</td>
+              <td>`pipeline.py`</td>
+              <td>读取脚本、生成音频、拼接视频</td>
+            </tr>
+            <tr>
+              <td>`run_video_job()`</td>
+              <td>`app.py`</td>
+              <td>后台线程任务入口</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="frontend">
+      <h2>四、前端结构</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>实现方式</h3>
+          <p>前端没有使用 React/Vite，而是纯静态文件：</p>
+          <ul>
+            <li>`index.html`：页面结构</li>
+            <li>`app.js`：接口请求、轮询任务、下载结果</li>
+            <li>`style.css`：页面样式</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>这样做的原因</h3>
+          <ul>
+            <li>部署简单，没有额外构建链</li>
+            <li>更适合交付给不同环境使用</li>
+            <li>静态资源直接由 FastAPI 提供</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout" style="margin-top:18px;">
+        当前前端是“轻页面 + 强后端流程”的思路。参数虽然较多，但前端本身没有复杂状态管理，维护成本低。
+      </div>
+    </section>
+
+    <section class="section" id="api">
+      <h2>五、接口说明</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>接口</th>
+              <th>方法</th>
+              <th>作用</th>
+              <th>关键输入</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`/api/voiceprints`</td>
+              <td>`GET`</td>
+              <td>获取声纹列表</td>
+              <td>无</td>
+            </tr>
+            <tr>
+              <td>`/api/voiceprints/extract`</td>
+              <td>`POST`</td>
+              <td>提取声纹</td>
+              <td>`audio`, `output_name`, `device`, `force`</td>
+            </tr>
+            <tr>
+              <td>`/api/pdf/split`</td>
+              <td>`POST`</td>
+              <td>拆 PDF 为图片 ZIP</td>
+              <td>`pdf`, `render_scale`, `image_format`, `start_page`, `end_page`</td>
+            </tr>
+            <tr>
+              <td>`/api/contracts/scripts-json`</td>
+              <td>`GET`</td>
+              <td>返回 `scripts.json` 合同示例</td>
+              <td>无</td>
+            </tr>
+            <tr>
+              <td>`/api/video-jobs`</td>
+              <td>`POST`</td>
+              <td>创建视频合成任务</td>
+              <td>`scripts_file`, `images`, `voiceprint_id`, TTS 和视频参数</td>
+            </tr>
+            <tr>
+              <td>`/api/video-jobs/{job_id}`</td>
+              <td>`GET`</td>
+              <td>查询任务状态</td>
+              <td>`job_id`</td>
+            </tr>
+            <tr>
+              <td>`/api/video-jobs/{job_id}/video`</td>
+              <td>`GET`</td>
+              <td>下载视频</td>
+              <td>`job_id`</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>`scripts.json` 合同</h3>
+      <pre class="code"><code>{
+  "pages": [
+    { "image": "page_001.png", "script": "第1页口播文案" },
+    { "image": "page_002.png", "script": "第2页口播文案" }
+  ]
+}</code></pre>
+    </section>
+
+    <section class="section" id="job">
+      <h2>六、任务流转与数据生命周期</h2>
+      <div class="diagram">
+        <div class="figure-title">图 2：视频任务时序</div>
+        <svg viewBox="0 0 1120 620" aria-label="视频任务时序图">
+          <rect x="0" y="0" width="1120" height="620" fill="#fffdf8"/>
+          <text x="120" y="48" font-size="24" font-weight="700" fill="#1e2430">Browser</text>
+          <text x="388" y="48" font-size="24" font-weight="700" fill="#1e2430">FastAPI</text>
+          <text x="676" y="48" font-size="24" font-weight="700" fill="#1e2430">Pipeline</text>
+          <text x="930" y="48" font-size="24" font-weight="700" fill="#1e2430">Runtime + ffmpeg</text>
+
+          <path d="M120 70V570M390 70V570M680 70V570M950 70V570" stroke="#d5dbe7" stroke-width="2" stroke-dasharray="8 8"/>
+
+          <rect x="62" y="94" width="160" height="44" rx="14" fill="#eef6ff" stroke="#c7d7fe"/>
+          <text x="142" y="122" text-anchor="middle" font-size="16" fill="#1e2430">POST /api/video-jobs</text>
+          <path d="M222 116H390" stroke="#155eef" stroke-width="4" stroke-linecap="round"/>
+
+          <rect x="330" y="168" width="120" height="44" rx="14" fill="#eef8f4" stroke="#bfe6dd"/>
+          <text x="390" y="196" text-anchor="middle" font-size="16" fill="#1e2430">创建 job</text>
+
+          <path d="M390 234H680" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+          <rect x="520" y="212" width="118" height="44" rx="14" fill="#eef8f4" stroke="#bfe6dd"/>
+          <text x="579" y="240" text-anchor="middle" font-size="16" fill="#1e2430">后台线程启动</text>
+
+          <path d="M680 290H950" stroke="#b54708" stroke-width="4" stroke-linecap="round"/>
+          <rect x="734" y="268" width="160" height="44" rx="14" fill="#fff7ed" stroke="#f6d6ae"/>
+          <text x="814" y="296" text-anchor="middle" font-size="16" fill="#1e2430">TTS / 声纹 / ffmpeg</text>
+
+          <rect x="628" y="352" width="104" height="44" rx="14" fill="#ffffff" stroke="#ddd4c7"/>
+          <text x="680" y="380" text-anchor="middle" font-size="16" fill="#1e2430">写入 output</text>
+
+          <path d="M140 438H390" stroke="#155eef" stroke-width="4" stroke-linecap="round"/>
+          <rect x="176" y="416" width="178" height="44" rx="14" fill="#eef6ff" stroke="#c7d7fe"/>
+          <text x="265" y="444" text-anchor="middle" font-size="16" fill="#1e2430">GET /api/video-jobs/{id}</text>
+
+          <path d="M390 500H140" stroke="#155eef" stroke-width="4" stroke-linecap="round"/>
+          <rect x="174" y="478" width="182" height="44" rx="14" fill="#eef6ff" stroke="#c7d7fe"/>
+          <text x="265" y="506" text-anchor="middle" font-size="16" fill="#1e2430">status = done / failed</text>
+        </svg>
+        <div class="figure-caption">当前任务状态存放在进程内存中的 `JOB_STORE`，适合单机本地使用，不适合多实例共享。</div>
+      </div>
+
+      <h3>任务目录</h3>
+      <pre class="code"><code>workspace/
+├── jobs/
+│   └── &lt;job_id&gt;/
+│       ├── images/
+│       ├── audio/
+│       ├── parts/
+│       ├── concat.txt
+│       └── scripts.json
+├── outputs/
+│   └── &lt;job_id&gt;_output.mp4
+└── voiceprints/
+    └── *.pt</code></pre>
+    </section>
+
+    <section class="section" id="extend">
+      <h2>七、扩展与改造建议</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>优先可做的增强</h3>
+          <ul>
+            <li>把图生文 placeholder 替换成真实外部多模态模型</li>
+            <li>增加高级参数折叠面板</li>
+            <li>加入任务历史持久化</li>
+            <li>加入失败重试和日志导出</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>如果要走线上化</h3>
+          <ul>
+            <li>把 `JOB_STORE` 改成数据库或 Redis</li>
+            <li>把后台线程改成任务队列</li>
+            <li>拆分前端静态资源和 API 服务</li>
+            <li>明确 GPU / CPU 调度策略</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout warn" style="margin-top:18px;">
+        当前系统的设计目标是“本地可用、环境兼容、便于分发”，不是高并发生产架构。后续如果要多人共用，任务执行层一定要重新设计。
+      </div>
+
+      <h3>关键环境变量</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>变量</th>
+              <th>默认来源</th>
+              <th>作用</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`CHAT_TTS_PYTHON`</td>
+              <td>`run.sh`</td>
+              <td>指定 TTS / 声纹提取子进程 Python</td>
+            </tr>
+            <tr>
+              <td>`CHAT_TTS_DEVICE`</td>
+              <td>`run.sh`</td>
+              <td>默认推理设备</td>
+            </tr>
+            <tr>
+              <td>`CHAT_TTS_SOURCE_ROOT`</td>
+              <td>`run.sh`</td>
+              <td>指定内置或自定义 runtime 根目录</td>
+            </tr>
+            <tr>
+              <td>`PORT`</td>
+              <td>启动时可传入</td>
+              <td>Web 服务端口</td>
+            </tr>
+            <tr>
+              <td>`DEV_RELOAD`</td>
+              <td>启动时可传入</td>
+              <td>是否开启 uvicorn 热重载</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footer">文档位置：`web_system/docs/technical_manual.html`</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Runtime caches
+.numba_cache/
+*.log
+
+# Local secrets / env
+.env
+.env.*
+*.key
+*.pem
+
+# Generated workspace artifacts
+web_system/workspace/jobs/**
+web_system/workspace/outputs/**
+web_system/workspace/voiceprints/**
+!web_system/workspace/jobs/.gitkeep
+!web_system/workspace/outputs/.gitkeep
+!web_system/workspace/voiceprints/.gitkeep
+
+# Demo / generated media
+ppt_parse/python_output/
+ppt_parse/*.mp4
+ppt_parse/*.m4a
+ppt_parse/测试.*
+
+# Duplicate root-level runtime copy; project uses web_system/runtime/ChatTTS-OpenVoice-Tools
+/ChatTTS-OpenVoice-Tools/
+
+# Runtime generated artifacts
+web_system/runtime/ChatTTS-OpenVoice-Tools/outputs/**
+web_system/runtime/ChatTTS-OpenVoice-Tools/tmp/**
+
+# Heavy runtime assets are stored externally in Tencent COS
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.bin
+*.gguf
+
+# Keep known small template needed by PPT generator
+!web_system/templates/base.pptx

@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "storage": "tencent-cos",
+  "assets": [
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/DVAE.pt",
+      "size_bytes": 27749823,
+      "size_mb": 26.46,
+      "sha256": "613cb128adf89188c93ea5880ea0b798e66b1fe6186d0c535d99bcd87bfd6976",
+      "required_for": "ChatTTS 模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/DVAE_full.pt",
+      "size_bytes": 60402442,
+      "size_mb": 57.6,
+      "sha256": "553eb75763511e23f3e5f86303e2163c5ca775489d637fb635d979c8ae58bbe5",
+      "required_for": "ChatTTS 模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/Decoder.pt",
+      "size_bytes": 103718156,
+      "size_mb": 98.91,
+      "sha256": "9964e36e840f0e3a748c5f716fe6de6490d2135a5f5155f4a642d51860e2ec38",
+      "required_for": "ChatTTS 模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/GPT.pt",
+      "size_bytes": 900746442,
+      "size_mb": 859.02,
+      "sha256": "d7d4ee6461ea097a2be23eb40d73fb94ad3b3d39cb64fbb50cb3357fd466cadb",
+      "required_for": "ChatTTS 模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/Vocos.pt",
+      "size_bytes": 54363119,
+      "size_mb": 51.84,
+      "sha256": "09a670eda1c08b740013679c7a90ebb7f1a97646ea7673069a6838e6b51d6c58",
+      "required_for": "ChatTTS 模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/spk_stat.pt",
+      "size_bytes": 4257,
+      "size_mb": 0.0,
+      "sha256": "3228d8a4cbbf349d107a1b76d2f47820865bd3c9928c4bdfe1cefd5c7071105f",
+      "required_for": "ChatTTS 模型辅助资产",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/ChatTTS_Model/asset/tokenizer.pt",
+      "size_bytes": 336680,
+      "size_mb": 0.32,
+      "sha256": "e911ae7c6a7c27953433f35c44227a67838fe229a1f428503bdb6cd3d1bcc69c",
+      "required_for": "ChatTTS 模型辅助资产",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/OpenVoice/checkpoints/converter/checkpoint.pth",
+      "size_bytes": 131327338,
+      "size_mb": 125.24,
+      "sha256": "89ae83aa4e3668fef64b388b789ff7b0ce0def9f801069edfc18a00ea420748d",
+      "required_for": "OpenVoice 声音转换模型权重",
+      "required": true,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/voiceprints/mzh.pt",
+      "size_bytes": 2601,
+      "size_mb": 0.0,
+      "sha256": "8c24b9c9ab3f15c3f28b1a3994beeedaa2f68f48bbe34eb2dbb22a342d19d8dd",
+      "required_for": "默认示例声纹，可按需替换",
+      "required": false,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/voiceprints/sty.pt",
+      "size_bytes": 2120,
+      "size_mb": 0.0,
+      "sha256": "1f557d11316e5aba38ded09419c68952a694d9dca714a84f6fc4ab10d88ed341",
+      "required_for": "默认示例声纹，可按需替换",
+      "required": false,
+      "cos_url": ""
+    },
+    {
+      "path": "web_system/runtime/ChatTTS-OpenVoice-Tools/voiceprints/zhy.pt",
+      "size_bytes": 2601,
+      "size_mb": 0.0,
+      "sha256": "2f0c6b244d92241ff1399efff0ebf7466dbb0b9d27415c643ad73df5023f8d72",
+      "required_for": "默认示例声纹，可按需替换",
+      "required": false,
+      "cos_url": ""
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>口播视频工具台</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Voice Video Workbench</p>
+      <h1>口播 PPT Agent 工作台</h1>
+      <p class="lead">先由自然语言或参考文件生成 PPT 与逐页口播文本，再继续复用声纹、切图、视频合成能力。</p>
+    </section>
+
+    <section class="panel featured">
+      <h2>0. Agent 生成 PPT + 口播文本</h2>
+      <p class="hint">输入一句自然语言需求，或上传参考资料。Web 端可配置 OpenAI 兼容 LLM 接口，也可以给每个参考文件指定类型和用途。</p>
+      <form id="agentForm">
+        <label>自然语言需求
+          <textarea name="instruction" rows="5" placeholder="例如：根据上传的产品资料，生成一份 8 页的产品宣讲 PPT，面向内部评审，突出背景、方案、收益和下一步计划。"></textarea>
+        </label>
+        <label>参考文件
+          <input type="file" name="reference_files" accept=".txt,.md,.csv,.tsv,.json,.yaml,.yml,.html,.pdf,.pptx,.docx,.xlsx" multiple>
+        </label>
+        <label>参考文件类型与用途 JSON
+          <textarea name="reference_specs_json" rows="7" placeholder='[{"filename":"brand.pdf","type":"brand","usage":"作为品牌和视觉规范"},{"filename":"data.xlsx","type":"data","usage":"作为指标事实来源"}]'></textarea>
+        </label>
+        <div class="tips">
+          <p class="field-help">支持类型建议：`outline` 大纲、`material` 素材、`data` 数据、`brand` 品牌规范、`source_ppt` 参考 PPT。</p>
+          <p class="field-help">如果未配置 LLM，系统会用本地规则生成可编辑初稿；配置后会调用 OpenAI 兼容 `/v1/chat/completions` 接口。</p>
+          <p class="field-help">如果返回 `HTTP 403`，优先检查 API Key、模型权限、Base URL 是否填到正确网关，以及是否需要在“自定义请求头 JSON”里补内部网关要求的 Header。</p>
+        </div>
+
+        <div class="section-title">LLM 接口配置</div>
+        <div class="grid2">
+          <label>Base URL<input type="text" name="llm_base_url" placeholder="例如 https://api.openai.com 或 http://127.0.0.1:11434"></label>
+          <label>模型名称<input type="text" name="llm_model" placeholder="例如 gpt-4.1 / qwen-plus / deepseek-chat"></label>
+          <label>API Key<input type="password" name="llm_api_key" placeholder="仅用于本次请求，不会保存"></label>
+          <label>temperature<input type="text" name="llm_temperature" value="0.4"></label>
+          <label>超时时间秒<input type="text" name="llm_timeout" value="120"></label>
+          <label>输出文件名<input type="text" name="output_name" value="agent_presentation"></label>
+        </div>
+        <label>自定义请求头 JSON
+          <textarea name="custom_headers_json" rows="3" placeholder='{"X-Provider":"demo"}'></textarea>
+        </label>
+
+        <div class="section-title">生成偏好</div>
+        <div class="grid2">
+          <label>PPT 页数<input type="text" name="slide_count" value="6"></label>
+          <label>语言<input type="text" name="language" value="中文"></label>
+          <label>目标受众<input type="text" name="audience" value="业务评审 / 内部分享"></label>
+          <label>PPT 风格预设
+            <select name="style_preset" id="stylePresetSelect">
+              <option value="business_clean" selected>商务简洁</option>
+            </select>
+          </label>
+          <label>单文件抽取上限字符<input type="text" name="max_reference_chars" value="16000"></label>
+        </div>
+        <p class="field-help" id="stylePresetDescription">商务简洁：适合内部评审、项目汇报、产品方案。</p>
+        <label>自定义风格补充
+          <textarea name="custom_style" rows="3" placeholder="例如：参考苹果发布会风格；页面更年轻；多用流程图和指标卡；品牌主色为 #FF6600"></textarea>
+        </label>
+        <input type="hidden" name="style" id="legacyStyleInput" value="商务简洁">
+        <button type="submit">生成 PPT 与口播文本</button>
+      </form>
+      <pre id="agentStatus">等待提交</pre>
+      <div class="download-row">
+        <a id="agentPptxLink" href="#" target="_blank" hidden>下载 PPTX</a>
+        <a id="agentScriptsLink" href="#" target="_blank" hidden>下载口播 JSON</a>
+        <a id="agentBundleLink" href="#" target="_blank" hidden>下载完整 ZIP</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>1. 提取声纹</h2>
+      <p class="hint">建议上传 10 到 60 秒、只有一个人说话、背景噪音尽量少的音频。一般直接用 `cpu + 覆盖已存在声纹` 即可。</p>
+      <form id="voiceprintForm">
+        <label>音频文件<input type="file" name="audio" accept=".m4a,.mp3,.wav,.aac,.flac,.ogg" required></label>
+        <label>声纹名称<input type="text" name="output_name" placeholder="默认取音频文件名"></label>
+        <label>提取设备
+          <select name="device">
+            <option value="auto">auto</option>
+            <option value="cpu" selected>cpu</option>
+            <option value="cuda">cuda</option>
+          </select>
+        </label>
+        <p class="field-help">`auto` 会自动选择设备。没有可用 GPU 时，推荐直接选 `cpu`，兼容性最好。</p>
+        <label class="check"><input type="checkbox" name="force" checked>覆盖已存在声纹</label>
+        <p class="field-help">勾选后，同名声纹会被重新生成；不勾选时，如果同名文件已存在会报错。</p>
+        <button type="submit">提取声纹</button>
+      </form>
+      <pre id="voiceprintStatus">等待提交</pre>
+    </section>
+
+    <section class="panel">
+      <h2>2. PDF 分割图片</h2>
+      <p class="hint">默认配置适合大多数 PPT/PDF。想要更清晰的图片可以提高渲染倍率，但文件体积也会更大。</p>
+      <form id="splitPdfForm">
+        <label>PDF 文件<input type="file" name="pdf" accept=".pdf" required></label>
+        <div class="grid2">
+          <label>渲染倍率<input type="text" name="render_scale" value="2.0"></label>
+          <label>图片格式
+            <select name="image_format">
+              <option value="png" selected>png</option>
+              <option value="jpg">jpg</option>
+              <option value="jpeg">jpeg</option>
+            </select>
+          </label>
+          <label>文件名前缀<input type="text" name="image_prefix" value="page"></label>
+          <label>起始页<input type="text" name="start_page" value="1"></label>
+          <label>结束页<input type="text" name="end_page" value="0" placeholder="0 表示到最后一页"></label>
+        </div>
+        <div class="tips">
+          <p class="field-help">`render_scale`：推荐 `1.5` 到 `3.0`，越大越清晰，也越占空间。</p>
+          <p class="field-help">`image_format`：默认 `png` 清晰度更稳；如果想减小文件体积可改成 `jpg`。</p>
+          <p class="field-help">`start_page / end_page`：可只导出一部分页面。`end_page=0` 表示一直导到最后一页。</p>
+        </div>
+        <button type="submit">分割并下载图片 ZIP</button>
+      </form>
+      <pre id="splitStatus">等待提交</pre>
+    </section>
+
+    <section class="panel">
+      <h2>3. 图片 + scripts.json + 声纹合成视频</h2>
+      <p class="hint">先准备好图片序列和 `scripts.json`，再选择声纹合成视频。大多数情况下保留默认参数就能直接出结果。</p>
+      <label>选择声纹
+        <select id="voiceprintSelect"></select>
+      </label>
+      <p class="field-help">可直接选择内置声纹，也可以先在上面的“提取声纹”模块里生成新的声纹。</p>
+      <form id="videoForm">
+        <label>scripts.json<input type="file" name="scripts_file" accept=".json" required></label>
+        <label>图片序列<input type="file" name="images" accept=".png,.jpg,.jpeg,.webp" multiple required></label>
+        <label>输出文件名<input type="text" name="output_name" placeholder="例如 demo.mp4"></label>
+        <div class="grid2">
+          <label>TTS 设备
+            <select name="tts_device">
+              <option value="auto">auto</option>
+              <option value="cpu" selected>cpu</option>
+              <option value="cuda">cuda</option>
+            </select>
+          </label>
+          <label>speaker seed<input type="text" name="speaker_seed" value="42"></label>
+          <label>text seed<input type="text" name="text_seed" value="42"></label>
+          <label>temperature<input type="text" name="temperature" value="0.3"></label>
+          <label>top p<input type="text" name="top_p" value="0.7"></label>
+          <label>top k<input type="text" name="top_k" value="20"></label>
+          <label>max new token<input type="text" name="max_new_token" value="2048"></label>
+        </div>
+        <label>refine prompt<input type="text" name="refine_prompt" value="[oral_2][laugh_0][break_6]"></label>
+        <div class="tips">
+          <p class="field-help">`speaker_seed / text_seed`：用于控制随机性。想稳定复现同样结果时，保持不变即可。</p>
+          <p class="field-help">`temperature / top_p / top_k`：控制发音生成的随机程度。默认值通常最稳，不建议大幅修改。</p>
+          <p class="field-help">`max_new_token`：单段文本特别长时才需要调大，普通口播一般不用动。</p>
+          <p class="field-help">`refine_prompt`：控制口语化、停顿等风格；如果你不确定含义，保留默认即可。</p>
+        </div>
+        <div class="grid2">
+          <label>视频帧率 fps<input type="text" name="video_fps" value="25"></label>
+          <label>视频质量 crf<input type="text" name="video_crf" value="23"></label>
+          <label>编码 preset
+            <select name="video_preset">
+              <option value="ultrafast">ultrafast</option>
+              <option value="superfast">superfast</option>
+              <option value="veryfast">veryfast</option>
+              <option value="faster">faster</option>
+              <option value="fast">fast</option>
+              <option value="medium" selected>medium</option>
+              <option value="slow">slow</option>
+              <option value="slower">slower</option>
+              <option value="veryslow">veryslow</option>
+            </select>
+          </label>
+          <label>音频码率<input type="text" name="audio_bitrate" value="128k"></label>
+        </div>
+        <div class="tips">
+          <p class="field-help">`video_fps`：静态 PPT 配音视频通常 `25` 就够用。</p>
+          <p class="field-help">`video_crf`：数值越小画质越高、体积越大。推荐 `18` 到 `28`，默认 `23` 比较均衡。</p>
+          <p class="field-help">`video_preset`：越慢压缩率通常越好，但导出更慢。默认 `medium` 最均衡。</p>
+          <p class="field-help">`audio_bitrate`：常用 `96k` 或 `128k`，默认 `128k` 即可。</p>
+        </div>
+        <label class="check"><input type="checkbox" name="no_refine">关闭文本润色</label>
+        <label class="check"><input type="checkbox" name="keep_temp_audio">保留 TTS 中间音频</label>
+        <label class="check"><input type="checkbox" name="keep_temp">保留中间文件</label>
+        <div class="tips">
+          <p class="field-help">`关闭文本润色`：如果你希望尽量按原文念，可以勾选；否则建议关闭，让模型自动优化口播节奏。</p>
+          <p class="field-help">`保留 TTS 中间音频 / 保留中间文件`：只在排查问题时建议开启，平时关闭更省空间。</p>
+        </div>
+        <button type="submit">开始合成视频</button>
+      </form>
+      <pre id="videoStatus">等待提交</pre>
+      <a id="videoLink" href="#" target="_blank" hidden>下载/打开视频</a>
+    </section>
+
+    <section class="panel">
+      <h2>scripts.json 格式</h2>
+      <pre id="scriptsContract"></pre>
+    </section>
+
+    <section class="panel">
+      <h2>图生文模块输入输出格式</h2>
+      <pre id="visionContract"></pre>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

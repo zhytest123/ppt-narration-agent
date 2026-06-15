@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>口播视频工具台 · 用户使用说明书</title>
+  <style>
+:root {
+  --bg: #f7f4ee;
+  --paper: #fffdf8;
+  --ink: #1e2430;
+  --muted: #5d6675;
+  --line: #ddd4c7;
+  --brand: #0f766e;
+  --brand-2: #155eef;
+  --warn: #b54708;
+  --soft: #eef6ff;
+  --soft-2: #eef8f4;
+  --shadow: 0 18px 40px rgba(24, 32, 56, 0.08);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(21, 94, 239, 0.08), transparent 34%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 30%),
+    var(--bg);
+  font: 16px/1.72 "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+a { color: var(--brand-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.page { width: min(1160px, calc(100vw - 40px)); margin: 0 auto; padding: 28px 0 80px; }
+.hero {
+  display: grid;
+  gap: 18px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(245, 251, 255, 0.9));
+  border: 1px solid rgba(221, 212, 199, 0.9);
+  border-radius: 30px;
+  padding: 34px;
+  box-shadow: var(--shadow);
+}
+.eyebrow { margin: 0; color: var(--brand); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; }
+.hero h1 { margin: 0; font-size: clamp(32px, 4vw, 50px); line-height: 1.08; }
+.hero p { margin: 0; color: var(--muted); max-width: 880px; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--soft-2);
+  color: var(--brand);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  font-size: 13px;
+  font-weight: 700;
+}
+.topnav {
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 26px;
+  padding: 14px 16px;
+  border: 1px solid rgba(221, 212, 199, 0.86);
+  border-radius: 20px;
+  background: rgba(255, 252, 246, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+}
+.topnav a {
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+}
+.section {
+  margin-top: 24px;
+  padding: 28px;
+  border-radius: 28px;
+  border: 1px solid rgba(221, 212, 199, 0.9);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.section h2 { margin: 0 0 12px; font-size: 28px; }
+.section h3 { margin: 22px 0 10px; font-size: 20px; }
+.section p, .section li { color: var(--muted); }
+.grid { display: grid; gap: 18px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { padding: 18px; border-radius: 22px; border: 1px solid var(--line); background: #fff; }
+.card h3, .card h4 { margin-top: 0; color: var(--ink); }
+.kpi { display: grid; gap: 8px; }
+.kpi strong { font-size: 28px; color: var(--brand-2); line-height: 1; }
+.callout { padding: 16px 18px; border-left: 4px solid var(--brand-2); border-radius: 18px; background: var(--soft); }
+.callout.warn { border-left-color: var(--warn); background: #fff7ed; }
+.steps { counter-reset: item; display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.steps li {
+  position: relative;
+  padding: 14px 16px 14px 58px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.steps li::before {
+  counter-increment: item;
+  content: counter(item);
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+}
+.code {
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  border: 1px solid #d8e3f6;
+  border-radius: 18px;
+  background: #0f172a;
+  color: #dbeafe;
+  font: 14px/1.6 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+.code code { font: inherit; }
+.table-wrap { overflow: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+}
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th { background: #f4f8ff; color: var(--ink); }
+.diagram, .mock {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fff, #fbfaf8);
+  overflow: hidden;
+}
+.figure-title { padding: 12px 16px; border-bottom: 1px solid var(--line); background: #f9fafb; color: var(--ink); font-weight: 700; }
+.figure-caption { padding: 12px 16px 16px; color: var(--muted); font-size: 14px; }
+.mock-window { padding: 14px; }
+.mock-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; }
+.dot.red { background: #f87171; }
+.dot.yellow { background: #fbbf24; }
+.dot.green { background: #34d399; }
+.mock-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; }
+.mock-pane, .mock-form { border-radius: 18px; border: 1px solid var(--line); background: #fff; padding: 14px; }
+.mock-block { height: 12px; border-radius: 999px; background: #e5e7eb; margin-bottom: 10px; }
+.mock-block.sm { width: 36%; }
+.mock-block.md { width: 62%; }
+.mock-block.lg { width: 88%; }
+.mock-block.brand { background: rgba(21, 94, 239, 0.18); }
+.mock-button { display: inline-block; padding: 10px 14px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 13px; font-weight: 700; }
+.footer { margin-top: 22px; text-align: center; color: var(--muted); font-size: 14px; }
+svg { display: block; width: 100%; height: auto; }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .mock-grid { grid-template-columns: 1fr; }
+  .section, .hero { padding: 22px; }
+}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">User Manual</p>
+      <h1>口播视频工具台<br>用户使用说明书</h1>
+      <p>这是一份给普通使用者的操作说明。你不需要理解内部代码，只需要按页面步骤操作，就可以完成声纹提取、PDF 切图和配音视频合成。</p>
+      <div class="meta">
+        <span class="chip">适用对象：业务同学 / 运营 / 内容制作</span>
+        <span class="chip">默认入口：`http://127.0.0.1:8000`</span>
+        <span class="chip">当前版本：内置运行时封装版</span>
+      </div>
+    </header>
+
+    <nav class="topnav">
+      <a href="#quickstart">快速开始</a>
+      <a href="#prepare">启动前准备</a>
+      <a href="#module-1">提取声纹</a>
+      <a href="#module-2">PDF 切图</a>
+      <a href="#module-3">合成视频</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+
+    <section class="section" id="quickstart">
+      <h2>一、快速开始</h2>
+      <div class="grid-3">
+        <article class="card kpi">
+          <strong>3</strong>
+          <div>核心模块</div>
+          <p>声纹提取、PDF 切图、图片文稿合成视频，都是独立操作，按需使用即可。</p>
+        </article>
+        <article class="card kpi">
+          <strong>1</strong>
+          <div>统一入口</div>
+          <p>所有功能都在同一个 Web 页面完成，不需要切换脚本或命令行。</p>
+        </article>
+        <article class="card kpi">
+          <strong>2</strong>
+          <div>常见流程</div>
+          <p>先提声纹再合成视频，或者先把 PDF 切图再配文案合成视频。</p>
+        </article>
+      </div>
+
+      <div class="diagram" style="margin-top:18px;">
+        <div class="figure-title">图 1：典型工作流</div>
+        <svg viewBox="0 0 1120 270" aria-label="典型工作流示意图">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#155eef"/>
+              <stop offset="100%" stop-color="#0f766e"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="1120" height="270" fill="#fffdf8"/>
+          <rect x="42" y="74" rx="22" ry="22" width="220" height="110" fill="#eef6ff" stroke="#c7d7fe"/>
+          <text x="152" y="112" text-anchor="middle" font-size="24" fill="#1e2430" font-weight="700">参考音频</text>
+          <text x="152" y="148" text-anchor="middle" font-size="16" fill="#5d6675">m4a / mp3 / wav</text>
+
+          <rect x="322" y="74" rx="22" ry="22" width="220" height="110" fill="#eef8f4" stroke="#bfe6dd"/>
+          <text x="432" y="112" text-anchor="middle" font-size="24" fill="#1e2430" font-weight="700">声纹提取</text>
+          <text x="432" y="148" text-anchor="middle" font-size="16" fill="#5d6675">生成 .pt 声纹</text>
+
+          <rect x="602" y="30" rx="22" ry="22" width="220" height="86" fill="#fff7ed" stroke="#f6d6ae"/>
+          <text x="712" y="70" text-anchor="middle" font-size="22" fill="#1e2430" font-weight="700">PDF 切图</text>
+          <text x="712" y="96" text-anchor="middle" font-size="15" fill="#5d6675">把 PDF 拆成图片</text>
+
+          <rect x="602" y="146" rx="22" ry="22" width="220" height="86" fill="#fff" stroke="#ddd4c7"/>
+          <text x="712" y="186" text-anchor="middle" font-size="22" fill="#1e2430" font-weight="700">scripts.json</text>
+          <text x="712" y="212" text-anchor="middle" font-size="15" fill="#5d6675">每页对应一段口播文本</text>
+
+          <rect x="882" y="74" rx="22" ry="22" width="196" height="110" fill="url(#g1)" opacity="0.95"/>
+          <text x="980" y="112" text-anchor="middle" font-size="24" fill="#ffffff" font-weight="700">视频合成</text>
+          <text x="980" y="148" text-anchor="middle" font-size="16" fill="#e2f8ff">输出 MP4 视频</text>
+
+          <path d="M262 129H322" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+          <path d="M542 129H602" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+          <path d="M822 73L878 106" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+          <path d="M822 189L878 152" fill="none" stroke="#155eef" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <div class="figure-caption">上半条线表示“PDF 变图片”，下半条线表示“图片 + 文案 + 声纹变视频”。</div>
+      </div>
+    </section>
+
+    <section class="section" id="prepare">
+      <h2>二、启动前准备</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1. 启动命令</h3>
+          <pre class="code"><code>cd web_system
+./run.sh</code></pre>
+          <p>启动成功后，浏览器打开 `http://127.0.0.1:8000`。</p>
+        </div>
+        <div class="card">
+          <h3>2. 你需要准备什么</h3>
+          <ul>
+            <li>如果要提取声纹：准备一个单人说话音频</li>
+            <li>如果要切图：准备一个 PDF 文件</li>
+            <li>如果要合成视频：准备图片序列、`scripts.json` 和一个声纹</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:18px;">
+        <strong>推荐准备方式：</strong> 声纹音频尽量选 10 到 60 秒、只有一个人说话、没有明显背景音乐的片段。这样提取结果更稳定。
+      </div>
+    </section>
+
+    <section class="section" id="module-1">
+      <h2>三、模块 1：提取声纹</h2>
+      <div class="grid-2">
+        <div>
+          <h3>使用场景</h3>
+          <p>当你想让后续 TTS 模拟某个人的说话音色时，第一步就是上传该人的参考音频并提取声纹。</p>
+          <h3>操作步骤</h3>
+          <ol class="steps">
+            <li>在“提取声纹”模块上传音频文件。</li>
+            <li>可选填写“声纹名称”，不填则默认使用音频文件名。</li>
+            <li>设备建议选 `cpu`，兼容性最好。</li>
+            <li>保持“覆盖已存在声纹”勾选，避免同名时报错。</li>
+            <li>点击“提取声纹”，等待状态区返回结果。</li>
+          </ol>
+        </div>
+        <div class="mock">
+          <div class="figure-title">图 2：声纹提取界面示意</div>
+          <div class="mock-window">
+            <div class="mock-bar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="mock-grid">
+              <div class="mock-pane">
+                <div class="mock-block lg brand"></div>
+                <div class="mock-block md"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block sm"></div>
+                <div class="mock-button">提取声纹</div>
+              </div>
+              <div class="mock-form">
+                <div class="mock-block sm"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block md"></div>
+                <div class="mock-block lg"></div>
+              </div>
+            </div>
+          </div>
+          <div class="figure-caption">左侧是表单，右侧是返回结果。提取成功后，新声纹会自动进入后续视频模块的下拉框。</div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>参数</th>
+              <th>推荐值</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`device`</td>
+              <td>`cpu`</td>
+              <td>最稳妥，适合大多数机器。</td>
+            </tr>
+            <tr>
+              <td>`force`</td>
+              <td>开启</td>
+              <td>同名声纹会覆盖更新，省去手动清理旧文件。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="module-2">
+      <h2>四、模块 2：PDF 分割图片</h2>
+      <div class="grid-2">
+        <div>
+          <h3>使用场景</h3>
+          <p>当你的内容来源是 PPT 导出的 PDF 时，先把每一页拆成图片，再去准备每页文案，是最直接的做法。</p>
+          <h3>操作步骤</h3>
+          <ol class="steps">
+            <li>上传 PDF 文件。</li>
+            <li>保留默认参数，或修改渲染倍率、页码范围。</li>
+            <li>点击“分割并下载图片 ZIP”。</li>
+            <li>浏览器会自动开始下载压缩包。</li>
+            <li>解压后即可得到按页命名的图片序列。</li>
+          </ol>
+        </div>
+        <div class="diagram">
+          <div class="figure-title">图 3：PDF 切图结果示意</div>
+          <svg viewBox="0 0 520 360" aria-label="PDF 切图结果示意图">
+            <rect x="0" y="0" width="520" height="360" fill="#fffdf8"/>
+            <rect x="28" y="34" width="116" height="148" rx="16" fill="#eef6ff" stroke="#c7d7fe"/>
+            <rect x="46" y="56" width="80" height="12" rx="6" fill="#dbeafe"/>
+            <rect x="46" y="82" width="72" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="46" y="100" width="68" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="46" y="118" width="58" height="10" rx="5" fill="#d1d5db"/>
+            <text x="86" y="165" text-anchor="middle" font-size="16" fill="#1e2430" font-weight="700">page_001.png</text>
+
+            <rect x="202" y="34" width="116" height="148" rx="16" fill="#eef8f4" stroke="#bfe6dd"/>
+            <rect x="220" y="56" width="78" height="12" rx="6" fill="#cdeee6"/>
+            <rect x="220" y="82" width="70" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="220" y="100" width="66" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="220" y="118" width="58" height="10" rx="5" fill="#d1d5db"/>
+            <text x="260" y="165" text-anchor="middle" font-size="16" fill="#1e2430" font-weight="700">page_002.png</text>
+
+            <rect x="376" y="34" width="116" height="148" rx="16" fill="#fff7ed" stroke="#f6d6ae"/>
+            <rect x="394" y="56" width="80" height="12" rx="6" fill="#fcd9bd"/>
+            <rect x="394" y="82" width="72" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="394" y="100" width="66" height="10" rx="5" fill="#d1d5db"/>
+            <rect x="394" y="118" width="58" height="10" rx="5" fill="#d1d5db"/>
+            <text x="434" y="165" text-anchor="middle" font-size="16" fill="#1e2430" font-weight="700">page_003.png</text>
+
+            <rect x="56" y="236" width="408" height="78" rx="18" fill="#f9fafb" stroke="#ddd4c7"/>
+            <text x="260" y="270" text-anchor="middle" font-size="24" fill="#1e2430" font-weight="700">PDF_images.zip</text>
+            <text x="260" y="295" text-anchor="middle" font-size="15" fill="#5d6675">浏览器自动下载，解压后得到图片序列</text>
+          </svg>
+          <div class="figure-caption">默认文件名类似 `page_001.png`。建议后续 `scripts.json` 直接沿用这些文件名，最不容易出错。</div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>参数</th>
+              <th>推荐值</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>`render_scale`</td>
+              <td>`2.0`</td>
+              <td>清晰度和体积比较均衡。</td>
+            </tr>
+            <tr>
+              <td>`image_format`</td>
+              <td>`png`</td>
+              <td>更稳，不容易糊；如果特别在意体积，可考虑 `jpg`。</td>
+            </tr>
+            <tr>
+              <td>`start_page / end_page`</td>
+              <td>`1 / 0`</td>
+              <td>`0` 表示一直到最后一页。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="module-3">
+      <h2>五、模块 3：图片 + 文稿 + 声纹合成视频</h2>
+      <div class="grid-2">
+        <div>
+          <h3>你需要准备三样东西</h3>
+          <ul>
+            <li>一组图片，例如 `page_001.png`、`page_002.png`</li>
+            <li>一个 `scripts.json` 文件</li>
+            <li>一个可选的声纹，来自内置声纹或你自己提取的新声纹</li>
+          </ul>
+          <h3>操作步骤</h3>
+          <ol class="steps">
+            <li>先在下拉框中选择声纹。</li>
+            <li>上传 `scripts.json`。</li>
+            <li>上传图片序列。</li>
+            <li>可选填写输出文件名，例如 `demo.mp4`。</li>
+            <li>保持默认 TTS 和视频参数，点击“开始合成视频”。</li>
+            <li>等待任务状态变成 `done`，再点击“下载/打开视频”。</li>
+          </ol>
+        </div>
+        <div class="mock">
+          <div class="figure-title">图 4：视频合成界面示意</div>
+          <div class="mock-window">
+            <div class="mock-bar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            </div>
+            <div class="mock-grid">
+              <div class="mock-pane">
+                <div class="mock-block sm"></div>
+                <div class="mock-block lg brand"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block md"></div>
+                <div class="mock-button">开始合成视频</div>
+              </div>
+              <div class="mock-form">
+                <div class="mock-block lg"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block lg"></div>
+                <div class="mock-block sm"></div>
+                <div class="mock-block md"></div>
+                <div class="mock-block lg"></div>
+              </div>
+            </div>
+          </div>
+          <div class="figure-caption">状态区会持续轮询任务状态。合成完成后，会出现最终视频链接。</div>
+        </div>
+      </div>
+
+      <h3>`scripts.json` 示例</h3>
+      <pre class="code"><code>{
+  "pages": [
+    { "image": "page_001.png", "script": "第1页口播文案" },
+    { "image": "page_002.png", "script": "第2页口播文案" }
+  ]
+}</code></pre>
+
+      <div class="callout warn" style="margin-top:18px;">
+        <strong>最重要的规则：</strong> `scripts.json` 里的 `image` 文件名，必须和你上传的图片文件名完全一致。只要名字对不上，视频任务就会失败。
+      </div>
+
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>参数组</th>
+              <th>推荐值</th>
+              <th>怎么理解</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TTS 设备</td>
+              <td>`cpu`</td>
+              <td>最稳，尤其适合打包给别人使用。</td>
+            </tr>
+            <tr>
+              <td>`speaker_seed / text_seed`</td>
+              <td>`42 / 42`</td>
+              <td>保持不变，方便稳定复现。</td>
+            </tr>
+            <tr>
+              <td>`temperature / top_p / top_k`</td>
+              <td>`0.3 / 0.7 / 20`</td>
+              <td>默认值通常最稳，不建议大幅修改。</td>
+            </tr>
+            <tr>
+              <td>`video_fps / video_crf`</td>
+              <td>`25 / 23`</td>
+              <td>静态口播视频常用配置。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>六、常见问题</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>1. 提取声纹失败</h3>
+          <ul>
+            <li>检查音频是否损坏</li>
+            <li>检查是否多人说话</li>
+            <li>检查音频格式是否受支持</li>
+            <li>同名时建议保持 `force` 开启</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>2. PDF 切图失败</h3>
+          <ul>
+            <li>确认上传的真的是 PDF</li>
+            <li>确认页码范围是否合理</li>
+            <li>`render_scale` 填写不要为 0 或负数</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>3. 视频合成失败</h3>
+          <ul>
+            <li>`scripts.json` 是否是合法 JSON</li>
+            <li>图片文件名是否完全匹配</li>
+            <li>声纹是否存在</li>
+            <li>输出文件名建议以 `.mp4` 结尾</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>4. 页面改了但看不到</h3>
+          <ul>
+            <li>强制刷新浏览器</li>
+            <li>重新打开页面</li>
+            <li>重启 `./run.sh`</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout" style="margin-top:18px;">
+        如果你是第一次用，建议严格按这个顺序：<strong>先提声纹 → 再切图 → 最后合成视频</strong>。这样出错点最少。
+      </div>
+    </section>
+
+    <p class="footer">文档位置：`web_system/docs/user_manual.html`</p>
+  </main>
+</body>
+</html>

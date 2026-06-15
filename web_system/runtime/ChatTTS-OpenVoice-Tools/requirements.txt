@@ -1,0 +1,26 @@
+# Install PyTorch separately when you need a platform-specific build.
+# Windows CUDA example:
+#   pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+# macOS / CPU example:
+#   pip install torch torchvision torchaudio
+
+transformers==4.41.2
+omegaconf
+ipywidgets
+vector_quantize_pytorch
+huggingface_hub
+vocos
+librosa
+pydub
+wavmark
+numpy
+eng_to_ipa
+inflect
+unidecode
+openai
+python-dotenv
+pypinyin
+jieba
+cn2an
+edge_tts
+soundfile

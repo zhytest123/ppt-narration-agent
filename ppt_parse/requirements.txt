@@ -1,0 +1,2 @@
+PyMuPDF>=1.26,<2
+imageio-ffmpeg>=0.6,<1
