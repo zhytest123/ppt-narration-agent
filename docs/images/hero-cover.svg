@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="PPT Narration Agent hero cover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050816"/>
+      <stop offset="0.42" stop-color="#101b4d"/>
+      <stop offset="1" stop-color="#022c3a"/>
+    </linearGradient>
+    <radialGradient id="glowBlue" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#67e8f9" stop-opacity="0.9"/>
+      <stop offset="0.45" stop-color="#2563eb" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowPink" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f0abfc" stop-opacity="0.75"/>
+      <stop offset="0.45" stop-color="#8b5cf6" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.26"/>
+      <stop offset="0.5" stop-color="#e0f2fe" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="cardBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="0.55" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#c4b5fd"/>
+    </linearGradient>
+    <linearGradient id="human" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67e8f9"/>
+      <stop offset="0.42" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="24" stdDeviation="26" flood-color="#000000" flood-opacity="0.38"/>
+    </filter>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#93c5fd" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="250" cy="175" r="300" fill="url(#glowBlue)"/>
+  <circle cx="1270" cy="360" r="390" fill="url(#glowPink)"/>
+  <circle cx="870" cy="790" r="360" fill="url(#glowBlue)" opacity="0.55"/>
+
+  <g opacity="0.7" stroke-linecap="round">
+    <path d="M88 706 C250 610, 342 680, 512 560 S810 408, 940 500 S1180 690, 1516 522" stroke="#38bdf8" stroke-opacity="0.34" stroke-width="3" fill="none"/>
+    <path d="M106 746 C312 624, 424 690, 590 585 S860 454, 1018 538 S1218 704, 1492 592" stroke="#a78bfa" stroke-opacity="0.28" stroke-width="3" fill="none"/>
+  </g>
+
+  <g transform="translate(90 110)" filter="url(#shadow)">
+    <rect x="0" y="0" width="685" height="510" rx="34" fill="url(#glass)" stroke="#7dd3fc" stroke-opacity="0.35"/>
+    <rect x="38" y="40" width="315" height="190" rx="24" fill="url(#cardBlue)" opacity="0.96"/>
+    <rect x="378" y="40" width="265" height="190" rx="24" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.55"/>
+    <rect x="38" y="260" width="265" height="190" rx="24" fill="#111827" stroke="#a78bfa" stroke-opacity="0.50"/>
+    <rect x="328" y="260" width="315" height="190" rx="24" fill="url(#cardBlue)" opacity="0.92"/>
+
+    <text x="66" y="92" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="800" fill="#0f172a">Editable PPTX</text>
+    <rect x="66" y="124" width="210" height="14" rx="7" fill="#2563eb" opacity="0.9"/>
+    <rect x="66" y="154" width="154" height="12" rx="6" fill="#0ea5e9" opacity="0.75"/>
+    <circle cx="296" cy="166" r="36" fill="#7c3aed" opacity="0.88"/>
+    <path d="M278 169l17 16 30-42" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <text x="410" y="92" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="800" fill="#e0f2fe">Speaker Script</text>
+    <path d="M414 134h168M414 164h128M414 194h188" stroke="#67e8f9" stroke-opacity="0.78" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="602" cy="156" r="20" fill="#f472b6" opacity="0.85"/>
+
+    <text x="66" y="312" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="800" fill="#e0f2fe">Voice Clone</text>
+    <g stroke="#22d3ee" stroke-width="8" stroke-linecap="round" opacity="0.88">
+      <path d="M68 374v-22"/><path d="M96 388v-50"/><path d="M124 406v-86"/><path d="M152 388v-50"/><path d="M180 374v-22"/><path d="M208 398v-70"/><path d="M236 382v-38"/>
+    </g>
+    <circle cx="260" cy="374" r="28" fill="#38bdf8" opacity="0.18"/>
+
+    <text x="358" y="312" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="800" fill="#0f172a">Narrated Video</text>
+    <rect x="358" y="342" width="216" height="76" rx="18" fill="#0f172a" opacity="0.88"/>
+    <path d="M444 361l58 19-58 19z" fill="#67e8f9"/>
+    <path d="M594 350c18 14 28 30 28 52s-10 38-28 52" stroke="#2563eb" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  </g>
+
+  <g transform="translate(875 88)" filter="url(#shadow)">
+    <circle cx="310" cy="238" r="202" fill="#67e8f9" opacity="0.08"/>
+    <circle cx="310" cy="238" r="156" fill="#38bdf8" opacity="0.07"/>
+    <g filter="url(#softGlow)">
+      <path d="M220 286c10-66 50-112 93-112s83 46 93 112c8 52-20 95-93 95s-101-43-93-95z" fill="url(#human)" opacity="0.88"/>
+      <ellipse cx="313" cy="142" rx="86" ry="94" fill="url(#human)" opacity="0.92"/>
+      <path d="M242 140c22-48 56-72 103-68 48 5 78 34 88 88-48-33-110-44-191-20z" fill="#e0f2fe" opacity="0.38"/>
+      <path d="M268 154c28 24 64 34 108 28" stroke="#0f172a" stroke-opacity="0.45" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <circle cx="286" cy="154" r="9" fill="#061227" opacity="0.75"/>
+      <circle cx="346" cy="154" r="9" fill="#061227" opacity="0.75"/>
+    </g>
+    <path d="M130 510c30-92 92-140 184-140s154 48 184 140" fill="#111827" stroke="#67e8f9" stroke-opacity="0.46" stroke-width="3"/>
+    <path d="M194 522c28-56 68-84 120-84s92 28 120 84" fill="none" stroke="#a78bfa" stroke-opacity="0.8" stroke-width="4"/>
+
+    <g stroke="#67e8f9" stroke-width="3" stroke-linecap="round" opacity="0.7">
+      <path d="M92 226h94"/><path d="M436 226h108"/><path d="M312 12v68"/><path d="M312 426v92"/>
+      <circle cx="88" cy="226" r="7" fill="#67e8f9"/><circle cx="548" cy="226" r="7" fill="#67e8f9"/><circle cx="312" cy="10" r="7" fill="#67e8f9"/><circle cx="312" cy="520" r="7" fill="#67e8f9"/>
+    </g>
+  </g>
+
+  <g transform="translate(92 672)">
+    <text x="0" y="0" font-family="Inter,Arial,sans-serif" font-size="72" font-weight="900" fill="#ffffff" letter-spacing="-2">PPT Narration Agent</text>
+    <text x="3" y="55" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="600" fill="#bfdbfe">Generate beautiful slides, speaker scripts, voiceprints and narrated videos from prompts and reference files.</text>
+    <g transform="translate(0 92)" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700">
+      <rect x="0" y="0" width="170" height="44" rx="22" fill="#2563eb" opacity="0.92"/><text x="28" y="29" fill="#fff">PPTX</text>
+      <rect x="190" y="0" width="205" height="44" rx="22" fill="#7c3aed" opacity="0.92"/><text x="218" y="29" fill="#fff">scripts.json</text>
+      <rect x="415" y="0" width="180" height="44" rx="22" fill="#0891b2" opacity="0.92"/><text x="443" y="29" fill="#fff">Voice Clone</text>
+      <rect x="615" y="0" width="170" height="44" rx="22" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.72"/><text x="645" y="29" fill="#dbeafe">MP4 Video</text>
+    </g>
+  </g>
+
+  <g opacity="0.75">
+    <circle cx="1388" cy="128" r="4" fill="#67e8f9"/><circle cx="1442" cy="188" r="3" fill="#f0abfc"/><circle cx="1316" cy="645" r="5" fill="#38bdf8"/><circle cx="1494" cy="706" r="3" fill="#c4b5fd"/><circle cx="76" cy="72" r="4" fill="#38bdf8"/><circle cx="662" cy="76" r="3" fill="#f0abfc"/>
+  </g>
+</svg>

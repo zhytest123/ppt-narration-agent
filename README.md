@@ -2,7 +2,9 @@
 
 一个面向内容创作、方案汇报和产品演示的本地 Web 工作台。它可以根据自然语言和参考资料生成图文并茂的可编辑 PPT，同时输出逐页口播稿，并支持声纹提取、PDF 切图和口播视频合成。
 
-![Workflow](docs/images/workflow.svg)
+<p align="center">
+  <img src="docs/images/hero-cover.svg" alt="PPT Narration Agent cover" width="100%" />
+</p>
 
 ## 核心能力
 
