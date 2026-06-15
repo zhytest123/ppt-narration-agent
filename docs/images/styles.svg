@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="300" viewBox="0 0 980 300" role="img" aria-label="PPT style presets">
+  <rect width="980" height="300" rx="28" fill="#f8fafc"/>
+  <text x="44" y="54" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="800" fill="#0f172a">Presentation styles</text>
+  <text x="44" y="82" font-family="Inter,Arial,sans-serif" font-size="15" fill="#64748b">Built-in presets plus custom style instructions</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <g transform="translate(44 120)"><rect width="135" height="110" rx="18" fill="#e0f2fe" stroke="#38bdf8"/><circle cx="32" cy="32" r="14" fill="#2563eb"/><text x="22" y="76" font-size="16" font-weight="700" fill="#0f172a">Business</text><text x="22" y="98" font-size="12" fill="#475569">clean & clear</text></g>
+    <g transform="translate(200 120)"><rect width="135" height="110" rx="18" fill="#eef2ff" stroke="#818cf8"/><circle cx="32" cy="32" r="14" fill="#7c3aed"/><text x="22" y="76" font-size="16" font-weight="700" fill="#0f172a">Tech AI</text><text x="22" y="98" font-size="12" fill="#475569">neon systems</text></g>
+    <g transform="translate(356 120)"><rect width="135" height="110" rx="18" fill="#111827"/><circle cx="32" cy="32" r="14" fill="#f59e0b"/><text x="22" y="76" font-size="16" font-weight="700" fill="#f8fafc">Black Gold</text><text x="22" y="98" font-size="12" fill="#fcd34d">premium</text></g>
+    <g transform="translate(512 120)"><rect width="135" height="110" rx="18" fill="#fff7ed" stroke="#fb923c"/><circle cx="32" cy="32" r="14" fill="#f97316"/><text x="22" y="76" font-size="16" font-weight="700" fill="#0f172a">Growth</text><text x="22" y="98" font-size="12" fill="#475569">warm story</text></g>
+    <g transform="translate(668 120)"><rect width="135" height="110" rx="18" fill="#f1f5f9" stroke="#94a3b8"/><circle cx="32" cy="32" r="14" fill="#020617"/><text x="22" y="76" font-size="16" font-weight="700" fill="#0f172a">Mono</text><text x="22" y="98" font-size="12" fill="#475569">minimal</text></g>
+    <g transform="translate(824 120)"><rect width="112" height="110" rx="18" fill="#ecfeff" stroke="#06b6d4"/><circle cx="32" cy="32" r="14" fill="#14b8a6"/><text x="22" y="76" font-size="16" font-weight="700" fill="#0f172a">Brand</text><text x="22" y="98" font-size="12" fill="#475569">colorful</text></g>
+  </g>
+</svg>

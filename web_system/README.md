@@ -1,6 +1,6 @@
 # Web System
 
-这是一个本地可运行的口播 PPT Agent 工作台。当前仓库包含 Agent 生成 PPT、声纹提取、PDF 切图、图片 + 口播稿合成视频等能力；大模型权重和默认声纹通过腾讯云 COS 外置存储。
+这是一个本地可运行的口播 PPT Agent 工作台，包含 Agent 生成 PPT、声纹提取、PDF 切图、图片 + 口播稿合成视频等能力。运行时代码随项目提供，模型资产由下载脚本按需获取。
 
 当前提供四个模块：
 
@@ -17,7 +17,7 @@
 web_system/runtime/ChatTTS-OpenVoice-Tools/
 ```
 
-该目录中的运行时代码随仓库提交；大模型权重和默认声纹不提交到 GitHub，请按 `runtime/assets_manifest.json` 从腾讯云 COS 下载。运行时生成的 `tmp/`、`outputs/` 不提交。
+该目录中的运行时代码随仓库提交；模型权重不直接提交到 GitHub，可通过 `runtime/download_assets.py` 下载。运行时生成的 `tmp/`、`outputs/` 不提交。
 
 声纹提取和视频合成功能需要该目录中至少包含：
 
@@ -35,7 +35,7 @@ web_system/runtime/ChatTTS-OpenVoice-Tools/
 CHAT_TTS_SOURCE_ROOT=/your/runtime/ChatTTS-OpenVoice-Tools ./run.sh
 ```
 
-首次克隆后请先回填 `runtime/assets_manifest.json` 中的 COS 链接，并执行 `python3 runtime/download_assets.py` 下载真实权重。只使用“Agent 生成 PPT + 口播文本”功能时，不依赖这些模型权重。
+首次克隆后如需声纹提取或视频合成，请执行 `python3 runtime/download_assets.py` 下载真实权重。只使用“Agent 生成 PPT + 口播文本”功能时，不依赖这些模型权重。
 
 ## 二、当前能力
 
@@ -828,35 +828,30 @@ GET /api/video-jobs/{job_id}
 GET /api/video-jobs/{job_id}/video
 ```
 
-## 十四、分发建议
+## 十四、模型资产与本地文件
 
-如果你要把这个工具上传到 GitHub，当前仓库按“源码 + 运行时代码 + COS 大资产”方案提交：
+Agent 生成 PPT 与口播稿只依赖 Web 服务层。声纹提取、TTS 和视频合成需要额外模型资产，首次使用前执行：
 
-- `README.md`
-- `.gitignore`
-- `.gitattributes`
-- `web_system/backend/`
-- `web_system/frontend/`
-- `web_system/templates/base.pptx`
-- `web_system/runtime/ChatTTS-OpenVoice-Tools/` 的代码和配置
-- `web_system/runtime/assets_manifest.json`
-- `web_system/runtime/download_assets.py`
-- `web_system/runtime/README.md`
-- `web_system/requirements.txt`
-- `web_system/run.sh`
-- `web_system/README.md`
+```bash
+cd web_system
+python3 runtime/download_assets.py
+```
 
-建议不要提交：
+下载脚本会读取：
 
-- 根目录重复副本 `ChatTTS-OpenVoice-Tools/`
-- `*.pt / *.pth / *.ckpt / *.safetensors / *.onnx / *.bin / *.gguf` 等模型权重
-- `web_system/runtime/ChatTTS-OpenVoice-Tools/tmp/`
-- `web_system/runtime/ChatTTS-OpenVoice-Tools/outputs/`
-- `web_system/workspace/jobs/` 的任务数据
-- `web_system/workspace/outputs/` 的生成结果
-- `web_system/workspace/voiceprints/` 的本地声纹文件
+```text
+web_system/runtime/assets_manifest.json
+```
 
-模型权重和默认声纹请上传到腾讯云 COS，并把下载链接回填到 `web_system/runtime/assets_manifest.json`。
+并把 ChatTTS 与 OpenVoice 所需模型放到运行时目录。
+
+模型与运行时参考：
+
+- ChatTTS：`https://huggingface.co/2Noise/ChatTTS`
+- OpenVoice：`https://huggingface.co/myshell-ai/OpenVoice`
+- ChatTTS-OpenVoice：`https://github.com/HKoon/ChatTTS-OpenVoice`
+
+本地任务、输出视频、临时音频和新提取声纹会保存在 `web_system/workspace/` 或运行时临时目录中。
 
 ## 十五、常见问题
 

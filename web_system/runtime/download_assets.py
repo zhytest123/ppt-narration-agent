@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Download external runtime assets listed in assets_manifest.json.
-
-Usage:
-  cd web_system/runtime
-  python3 download_assets.py
-
-Before running, fill each asset's cos_url in assets_manifest.json.
-"""
+"""Download runtime model assets defined in assets_manifest.json."""
 from __future__ import annotations
 
 import hashlib
@@ -27,27 +20,29 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
+def download(url: str, target: Path) -> None:
+    request = urllib.request.Request(url, headers={"User-Agent": "ppt-narration-agent/1.0"})
+    with urllib.request.urlopen(request, timeout=180) as response:
+        target.write_bytes(response.read())
+
+
 def main() -> int:
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    assets = data.get("assets", [])
-    missing_urls = [asset["path"] for asset in assets if not asset.get("cos_url")]
-    if missing_urls:
-        print("以下资产还没有填写 cos_url，请先上传到腾讯云 COS 后回填：")
-        for path in missing_urls:
-            print(f"- {path}")
-        return 2
-
-    for asset in assets:
+    for asset in data.get("assets", []):
         target = ROOT / asset["path"]
-        target.parent.mkdir(parents=True, exist_ok=True)
         expected_sha256 = asset.get("sha256", "")
+        url = asset.get("url")
+        if not url:
+            print(f"skip {asset['path']}: missing url", file=sys.stderr)
+            continue
+
+        target.parent.mkdir(parents=True, exist_ok=True)
         if target.exists() and expected_sha256 and sha256_of(target) == expected_sha256:
-            print(f"skip {asset['path']} already exists")
+            print(f"skip {asset['path']}")
             continue
 
         print(f"download {asset['path']}")
-        with urllib.request.urlopen(asset["cos_url"], timeout=120) as response:
-            target.write_bytes(response.read())
+        download(url, target)
 
         if expected_sha256:
             actual_sha256 = sha256_of(target)
@@ -58,7 +53,7 @@ def main() -> int:
                 print(f"actual:   {actual_sha256}", file=sys.stderr)
                 return 1
 
-    print("all assets downloaded")
+    print("runtime assets are ready")
     return 0
 
 
